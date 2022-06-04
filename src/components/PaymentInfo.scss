@@ -1,0 +1,260 @@
+.BookingModal{
+    &__payment-info {   
+      display: flex;
+      flex-direction: column;
+      width: 65%;
+      align-items: center;
+      padding: 3rem;
+      &-forms{
+        width: 100%;
+        padding-top: 3rem;
+        & .accordion-button{
+          background-color: #002b49;
+          color: #fff;
+          padding: 12px 1rem;
+          font-size: 1rem;
+          &::after{
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23999999'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+          }
+          &:focus{
+            box-shadow: none;
+          }
+          &::after{
+            color: #fff;
+          }
+        }
+        & .text-muted{
+          font-size: 0.75rem;
+          padding-left: 0.5rem;
+          width: 100%;
+        }
+      }
+    
+      &-form{
+        &-error{
+          color: #e05f63;
+          padding-bottom: 0.5rem;
+        }
+        &-checkbox{
+          display: flex;
+         }
+        &-existingCard{
+          &-container{
+            display: flex;
+            justify-content: center;
+            padding: 1rem 0;
+          }
+          &-form{
+            width: 70%;
+          }
+          & input{
+            font-size: 0.9rem;
+          }
+          & select{
+            font-size: 0.9rem;
+          }
+          & span{
+            font-size: 0.9rem;
+          }
+        }
+        &-refund{
+          &-radioBtn{
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            font-size: 0.85rem;
+            width: 100%;
+            & input {
+              margin-top: 0.2rem;
+              margin-bottom: 0.2rem;
+            }
+            & label{
+              width: 95%;
+              padding: 0.1rem 0 0.1rem 0.4rem;
+              display: flex;
+              & div {
+                &.partialRefund{
+                  color: #868383;
+                }
+                width: 18%;
+                &:nth-of-type(2){
+                  font-size: 0.8rem;
+                  color: rgba(126, 123, 123, 0.849);
+                  text-align: center;
+                  width: 13%;
+                }
+                &:nth-of-type(3){
+                  width: 30%;
+                  text-align: center;
+                  font-size: 0.8rem;
+                }
+                &:nth-of-type(4){
+                  text-align: end;
+                  width: 14%;
+                }
+                &:nth-of-type(5){
+                  width: 25%;
+                  text-align: end;
+                }
+              }
+            }
+          }
+          &-payments{
+            padding: 0.1rem 0 0.1rem 0.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width:100%;
+          }
+          &-header{
+            padding-bottom: 0.5rem;
+            font-size: 0.9rem;
+            width: 100%;
+          }
+          & form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 1rem;
+            padding-top: 0.3rem;
+          }
+          &-inputs {
+            width: 70%;
+            padding-top: 0.5rem;
+            & input {
+              font-size: 0.9rem;
+            }
+            & textarea {
+              font-size: 0.9rem;
+            }
+            & span {
+              font-size: 0.9rem;
+            }
+          }
+        }
+        &-newCard{
+          & form {
+            display: flex;
+            flex-direction: column;
+          }
+        }
+        &-heading {
+          background-color: #3b3a3a;
+          color: #fff;
+          padding: 12px 1rem;
+          font-size: 1rem;
+        }
+        &-buttons {
+          display: flex;
+          justify-content: center;
+          padding-top: 1rem;
+          & button{
+            background-color: white;
+            border: 0.1rem solid rgba(66, 65, 65, 0.133);
+            font-size: 0.9rem;
+            border-radius: 0.25rem;
+            padding: 0.35rem 1.3rem;
+            color: #131313;
+            margin: 0 0.7rem;
+            &:first-of-type{
+                background-color: #e05f63;
+                border: 0.1rem solid #e05f63;
+                color: white;
+              &:hover{
+                background-color: #c45054;
+                border: 0.1rem solid #c45054;
+              }
+            }
+            &:last-of-type{
+                background-color: rgb(112, 110, 110);
+                border: 0.1rem solid rgb(112, 110, 110);
+                color: white;
+              &:hover{
+                background-color: rgb(134, 132, 132);
+                border: 0.1rem solid rgb(134, 132, 132);
+              }
+            }
+          }
+        }
+      }
+       &-container {
+        width: 100%;
+        padding: 1rem 1.6rem;
+        background-color: #f7f7f7;
+        display: flex;
+        border-radius: 10px;
+        justify-content: center;
+        & table {
+          width: 97%;
+          th {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #131313;
+            text-align: center;
+            padding-bottom: 0.6rem;
+            padding-top: 0.5rem;
+            &:last-of-type{
+              text-align: end;
+            }
+            &:first-of-type{
+              text-align: start;
+            }
+          }
+          & tbody{
+            & tr {
+              border-bottom: 1px solid #eae8e8;
+              &:last-of-type {
+                border-bottom: none;
+              }
+            }
+            & td {
+              text-align: center;
+              font-size: 0.75rem;
+              padding-top: 0.4rem;
+              padding-bottom: 1rem;
+              color: rgb(92, 91, 91);
+              &:last-of-type{
+                text-align: end;
+              }
+              &:first-of-type{
+                text-align: start;
+                &.charge{
+                  color:rgba(0, 128, 0, 0.897);
+                }
+                &.refund{
+                  color:#e0565a;
+                  cursor: pointer;
+                  & i {
+                    padding-left: 0.3rem;
+                  }
+                }
+              }
+            }
+          }
+          & tfoot{
+            height: 2rem;
+            text-align: end;
+            font-size: 0.85rem;
+            color: #131313;
+            & td {
+              padding: 0.7rem 0;
+            }
+          }
+        }
+      }
+    }
+    &-confirmation{
+      width: 92%;
+      margin: 0 auto;
+      & div{
+        padding-bottom: 0.5rem;
+      }
+    }
+}
+
+.popover-header{
+  background-color: white;
+  font-size: 0.95rem;
+  color: #e0565a;
+  text-align: center;
+}
