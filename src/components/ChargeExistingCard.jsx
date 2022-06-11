@@ -11,7 +11,7 @@ import fetchFromAPI from '../utils/helpers';
 import { validPrice } from '../utils/Regex';
 
 const date = dayjs(new Date()).format('YYYY-MM-DD');
-const API = process.env.REACT_APP_BOAT_API;
+const API = process.env.REACT_APP_STRIPE_API;
 
 function ChargeExistingCard({
   clickedBooking,
@@ -101,15 +101,15 @@ function ChargeExistingCard({
   };
 
   return (
-    <div className="BookingModal__payment-info-form-existingCard">
+    <div className="Payment__payment-info-form-existingCard">
       <Accordion.Item eventKey="1" onClick={() => setFormOpen('existing card')}>
         <Accordion.Header>
           Charge existing card
         </Accordion.Header>
         <Accordion.Body>
-          {error && <div className="BookingModal__payment-info-form-error">{error}</div>}
-          <div className="BookingModal__payment-info-form-existingCard-container">
-            <div className="BookingModal__payment-info-form-existingCard-form">
+          {error && <div className="Payment__payment-info-form-error">{error}</div>}
+          <div className="Payment__payment-info-form-existingCard-container">
+            <div className="Payment__payment-info-form-existingCard-form">
               <Form onSubmit={(e) => handleSubmit(e)}>
                 <InputGroup className="mb-3">
                   <InputGroup.Text>US$</InputGroup.Text>
@@ -157,7 +157,7 @@ function ChargeExistingCard({
                     Transaction date
                   </Form.Text>
                 </Form.Group>
-                <div className="BookingModal__payment-info-form-buttons">
+                <div className="Payment__payment-info-form-buttons">
                   <Button type="submit" disabled={confirmed}>
                     Charge
                   </Button>

@@ -31,7 +31,7 @@ function PaymentConfirmation({
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div className="BookingModal__payment-confirmation">
+          <div className="Payment__payment-confirmation">
             {formMsg}
             {formOpen === 'refund' && (
               <Form.Group className="mb-3" controlId="formBasicCheckbox">

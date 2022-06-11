@@ -11,8 +11,7 @@ import {
 import fetchFromAPI from '../utils/helpers';
 import { validTextArea, validPrice } from '../utils/Regex';
 
-const API = process.env.REACT_APP_BOAT_API;
-const emailAPI = process.env.REACT_APP_EMAIL_API;
+const API = process.env.STRIPE_API;
 
 function Refund({
   clickedBooking,
@@ -31,36 +30,9 @@ function Refund({
   const [paymentIntent, setPaymentIntent] = useState('');
   const [validated, setValidated] = useState(false);
   const [error, setError] = useState('');
-  const [refundType, setRefundType] = useState('');
 
   const payment = paymentsList && paymentsList?.filter((payment) => payment.id === paymentIntent);
   const cardInfo = payment?.[0]?.charges?.data?.[0]?.payment_method_details.card;
-
-  const remaining = (Number(payment?.[0]?.charges?.data[0]?.amount)
-    - Number(payment?.[0]?.charges?.data[0]?.amount_refunded)) / 100;
-
-  useEffect(() => {
-    if (remaining - amount > 0) setRefundType('partial');
-    else setRefundType('full');
-  }, [amount]);
-
-  const getPax = () => {
-    let pax = '';
-    clickedBooking.bookingUnits.map((p) => {
-      pax += `${p.quantity} ${p.unit.label} `;
-    });
-    return pax;
-  };
-
-  const sendRefundEmail = async (body) => {
-    try {
-      const res = await fetchFromAPI(emailAPI, 'refundBooking', {
-        body,
-      });
-    } catch (err) {
-      console.log(`Email was not sent: ${err.message}.`);
-    }
-  };
 
   const createRefund = async (body) => {
     try {
@@ -85,22 +57,6 @@ function Refund({
             },
           },
         });
-        if (checked) {
-          const body = {
-            customerName: clickedBooking.customer.contactName,
-            customerEmail: clickedBooking.customer.email,
-            customerMobile: clickedBooking.customer.phone,
-            tourName: clickedBooking.product.tourName,
-            tourDate: clickedBooking.tourDate,
-            tourTime: clickedBooking.tourTime,
-            bookingID: clickedBooking.id,
-            pax: getPax(),
-            currency: 'USD',
-            refundType,
-            paid: `$${amount}`,
-          };
-          sendRefundEmail(body);
-        }
       }
     } catch (err) {
       alert(`Refund failed: ${err.message}. Error code is: ${err.code}`);
@@ -153,29 +109,29 @@ function Refund({
   };
 
   return (
-    <div className="BookingModal__payment-info-form-refund">
+    <div className="Payment__payment-info-form-refund">
       <Accordion.Item eventKey="0" onClick={() => setFormOpen('refund')}>
         <Accordion.Header>
           Refund
         </Accordion.Header>
         <Accordion.Body>
-          {error && <div className="BookingModal__payment-info-form-error">{error}</div>}
+          {error && <div className="Payment__payment-info-form-error">{error}</div>}
           <Form onSubmit={(e) => handleSubmit(e)}>
-            <div className="BookingModal__payment-info-form-refund-header">
+            <div className="Payment__payment-info-form-refund-header">
               Choose payment to refund:
             </div>
-            <Form.Group className="BookingModal__payment-info-form-refund-radioBtn mb-3 ">
+            <Form.Group className="Payment__payment-info-form-refund-radioBtn mb-3 ">
               {paymentsList && paymentsList.map((payment) => (
                 payment.charges.data[0] && !payment.charges.data[0].refunded)
                 && (
-                  <div className="BookingModal__payment-info-form-refund-payments" key={payment.id}>
+                  <div className="Payment__payment-info-form-refund-payments" key={payment.id}>
                     <Form.Check
                       type="radio"
                       name="payments-radio-btn"
                       key={payment.id}
                       id={payment.id}
                       value={payment.amount}
-                      className={`BookingModal__payment-info-form-checkbox${validated && paymentIntent ? ' is-valid' : ''}${validated && !paymentIntent ? ' is-invalid' : ''}`}
+                      className={`Payment__payment-info-form-checkbox${validated && paymentIntent ? ' is-valid' : ''}${validated && !paymentIntent ? ' is-invalid' : ''}`}
                       onChange={(e) => handleAmountChange(e, payment)}
                     />
                     <Form.Check.Label>
@@ -216,7 +172,7 @@ function Refund({
                   </div>
                 ))}
             </Form.Group>
-            <div className="BookingModal__payment-info-form-refund-inputs">
+            <div className="Payment__payment-info-form-refund-inputs">
               <InputGroup className="mb-3">
                 <InputGroup.Text>US$</InputGroup.Text>
                 <Form.Control
@@ -260,7 +216,7 @@ function Refund({
                   Enter reason for refund
                 </Form.Text>
               </Form.Group>
-              <div className="BookingModal__payment-info-form-buttons">
+              <div className="Payment__payment-info-form-buttons">
                 <Button type="submit" disabled={confirmed}>
                   Refund
                 </Button>

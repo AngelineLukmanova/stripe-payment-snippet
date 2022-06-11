@@ -6,15 +6,16 @@ import PaymentHistory from './PaymentHistory';
 import fetchFromAPI from '../utils/helpers';
 import ChargeExistingCard from './ChargeExistingCard';
 import PaymentConfirmation from './PaymentConfirmation';
+import ChargeNewCard from './ChargeNewCard';
 import Refund from './Refund';
 import './PaymentInfo.scss';
 
-const API = process.env.REACT_APP_BOAT_API;
+const API = process.env.STRIPE_API;
 
 function Payment({ clickedBooking }) {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
-  const [formOpen, setFormOpen] = useState('new card');
+  const [formOpen, setFormOpen] = useState('refund');
   const [formMsg, setFormMsg] = useState('');
   const [paymentsList, setPaymentsList] = useState('');
   const [checked, setChecked] = useState(false);
@@ -42,13 +43,23 @@ function Payment({ clickedBooking }) {
     }
   }, [clickedBooking]);
 
+  // useEffect(() => {
+  //   if (clickedBooking) {
+  //     const body = {
+  //       customer: clickedBooking.customer.customerId,
+  //     };
+  //     paymentIntentsList(body);
+  //   }
+  // }, [clickedBooking]);
+
   return (
-    <div className="BookingModal__payment-info">
-      <div className="BookingModal__payment-info-container">
+    <div className="Payment__payment-info">
+      <h1>Stripe Demo</h1>
+      <div className="Payment__payment-info-container">
         <PaymentHistory clickedBooking={clickedBooking} paymentsList={paymentsList} />
       </div>
-      <div className="BookingModal__payment-info-forms">
-        <Accordion defaultActiveKey="2">
+      <div className="Payment__payment-info-forms">
+        <Accordion defaultActiveKey="0">
           <Refund
             clickedBooking={clickedBooking}
             setShowConfirmation={setShowConfirmation}
@@ -61,6 +72,15 @@ function Payment({ clickedBooking }) {
             checked={checked}
           />
           <ChargeExistingCard
+            clickedBooking={clickedBooking}
+            setShowConfirmation={setShowConfirmation}
+            confirmed={confirmed}
+            // addTransaction={addTransaction}
+            setFormOpen={setFormOpen}
+            formOpen={formOpen}
+            setFormMsg={setFormMsg}
+          />
+          <ChargeNewCard
             clickedBooking={clickedBooking}
             setShowConfirmation={setShowConfirmation}
             confirmed={confirmed}
