@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Accordion } from 'react-bootstrap';
-import { useMutation } from '@apollo/client';
-// import { ADD_TRANSACTION } from '../../../../api/bookings';
 import PaymentHistory from './PaymentHistory';
 import fetchFromAPI from '../utils/helpers';
 import ChargeExistingCard from './ChargeExistingCard';
@@ -12,7 +10,7 @@ import './PaymentInfo.scss';
 
 const API = process.env.STRIPE_API;
 
-function Payment({ clickedBooking }) {
+function Payment() {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
   const [formOpen, setFormOpen] = useState('refund');
@@ -20,28 +18,18 @@ function Payment({ clickedBooking }) {
   const [paymentsList, setPaymentsList] = useState('');
   const [checked, setChecked] = useState(false);
 
-  // const [addTransaction] = useMutation(ADD_TRANSACTION, {
-  //   onCompleted: () => {
-  //     setShowConfirmation(false);
-  //     !checked && window.location.reload();
-  //   },
-  // });
+  // const [customer, setCustomer] = useState(localStorage.getItem('customerId'));
 
-  const paymentIntentsList = async (body) => {
-    const res = await fetchFromAPI(API, 'create-payment-intents-list', {
-      body,
-    });
-    setPaymentsList(res.paymentIntentsList.data);
-  };
+  // console.log(localStorage.getItem('customerId'));
+  // console.log(customer);
 
-  useEffect(() => {
-    if (clickedBooking) {
-      const body = {
-        customer: clickedBooking.customer.customerId,
-      };
-      paymentIntentsList(body);
-    }
-  }, [clickedBooking]);
+
+  // const paymentIntentsList = async (body) => {
+  //   const res = await fetchFromAPI(API, 'create-payment-intents-list', {
+  //     body,
+  //   });
+  //   setPaymentsList(res.paymentIntentsList.data);
+  // };
 
   // useEffect(() => {
   //   if (clickedBooking) {
@@ -56,15 +44,13 @@ function Payment({ clickedBooking }) {
     <div className="Payment__payment-info">
       <h1>Stripe Demo</h1>
       <div className="Payment__payment-info-container">
-        <PaymentHistory clickedBooking={clickedBooking} paymentsList={paymentsList} />
+        <PaymentHistory paymentsList={paymentsList} />
       </div>
       <div className="Payment__payment-info-forms">
         <Accordion defaultActiveKey="0">
           <Refund
-            clickedBooking={clickedBooking}
             setShowConfirmation={setShowConfirmation}
             confirmed={confirmed}
-            // addTransaction={addTransaction}
             setFormOpen={setFormOpen}
             formOpen={formOpen}
             setFormMsg={setFormMsg}
@@ -72,19 +58,15 @@ function Payment({ clickedBooking }) {
             checked={checked}
           />
           <ChargeExistingCard
-            clickedBooking={clickedBooking}
             setShowConfirmation={setShowConfirmation}
             confirmed={confirmed}
-            // addTransaction={addTransaction}
             setFormOpen={setFormOpen}
             formOpen={formOpen}
             setFormMsg={setFormMsg}
           />
           <ChargeNewCard
-            clickedBooking={clickedBooking}
             setShowConfirmation={setShowConfirmation}
             confirmed={confirmed}
-            // addTransaction={addTransaction}
             setFormOpen={setFormOpen}
             formOpen={formOpen}
             setFormMsg={setFormMsg}
@@ -97,7 +79,6 @@ function Payment({ clickedBooking }) {
         setConfirmed={setConfirmed}
         formOpen={formOpen}
         formMsg={formMsg}
-        clickedBooking={clickedBooking}
         checked={checked}
         setChecked={setChecked}
       />

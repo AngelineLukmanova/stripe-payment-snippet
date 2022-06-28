@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import dayjs from 'dayjs';
 import {
   CardNumberElement,
   CardExpiryElement,
@@ -7,66 +6,51 @@ import {
   useStripe,
   useElements,
 } from '@stripe/react-stripe-js';
-import {
-  Accordion,
-  Form,
-  Button,
-  InputGroup,
-} from 'react-bootstrap';
+import { Accordion, Button } from 'react-bootstrap';
 import fetchFromAPI from '../utils/helpers';
-import { validPrice } from '../utils/Regex';
-
-const date = dayjs(new Date()).format('YYYY-MM-DD');
-// const API = process.env.REACT_APP_STRIPE_API;
 
 function ChargeNewCard({
-  clickedBooking,
-  addTransaction,
-  setShowConfirmation,
-  confirmed,
   formOpen,
   setFormOpen,
-  setFormMsg,
 }) {
   const [processing, setProcessing] = useState(false);
-  const [error, setError] = useState(null);
-  const [amount, setAmount] = useState(100);
+  const [error, setError] = useState('');
   const [clientSecret, setClientSecret] = useState(null);
 
   const elements = useElements();
   const stripe = useStripe();
 
-  const [paymentOptions, setPaymentOptions] = useState();
-  const [cardId, setCardId] = useState('');
-  const [validated, setValidated] = useState(false);
-
-
-  const cardInfo = (cardId && cardId !== 'default')
-    && paymentOptions.payments.filter((payment) => payment.id === cardId)[0];
-
   const getClientSecret = async (body) => {
     const res = await fetchFromAPI(process.env.REACT_APP_STRIPE_API, 'create-payment-intent', {
       body
     })
-    console.log(res);
+    setClientSecret(res.clientSecret);
+    if (!localStorage.getItem('customerId')) localStorage.setItem('customerId', res.customer);
   }
 
   useEffect(() => {
     if (formOpen === 'new card') {
       const body = {
-        amount: 10000
+        amount: 10000,
+        customer: localStorage.getItem('customerId'),
       }
       getClientSecret(body);
     }
   }, [formOpen]);
 
   const handleSubmit = async () => {
-    if (amount !== 0 && validPrice.test(amount)) {
-      console.log('valid');
+    setProcessing(true);
+    const payload = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: elements.getElement(CardNumberElement),
+      },
+    });
+    if (payload.error) {
+      setError(`Payment Failed: ${payload.error.message}`)
     } else {
-      setError('Amount cannot be 0 or less');
+      setProcessing(false);
+      window.location.reload();
     }
-
   };
 
   const handleChange = (e) => {
@@ -103,19 +87,25 @@ function ChargeNewCard({
               <p>Test card number is 4242 4242 4242 4242</p>
               <p>Use it with any CVC and future expiration date</p>
             </div>
+            {error
+              && (
+                <div className="Payment__payment-info-form-newCard-elements-error">{error}</div>
+              )}
             <p>Amount: 100$</p>
             <CardNumberElement
               options={cardStyle}
               onChange={handleChange}
             />
-            <CardExpiryElement
-              options={cardStyle}
-              onChange={handleChange}
-            />
-            <CardCvcElement
-              options={cardStyle}
-              onChange={handleChange}
-            />
+            <div className="Payment__payment-info-form-newCard-elements-cvc">
+              <CardExpiryElement
+                options={cardStyle}
+                onChange={handleChange}
+              />
+              <CardCvcElement
+                options={cardStyle}
+                onChange={handleChange}
+              />
+            </div>
           </div>
           <Button
             id="new-card-charge-btn"

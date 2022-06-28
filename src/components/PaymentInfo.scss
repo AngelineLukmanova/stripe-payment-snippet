@@ -175,6 +175,8 @@
           background-color: #e05f63;
           border: 0.1rem solid #e05f63;
           color: white;
+          padding: 0.3rem 1.3rem;
+          font-size: 0.95rem;
 
           &:hover {
             background-color: #c45054;
@@ -190,6 +192,11 @@
           margin-bottom: 1.5rem;
           margin-top: 0.3rem;
 
+          &-cvc {
+            display: flex;
+            width: 70%;
+          }
+
           &-test {
             display: flex;
             flex-direction: column;
@@ -200,6 +207,12 @@
             & p {
               margin: 0;
             }
+          }
+
+          &-error {
+            color: #e05f63;
+            font-size: 0.9rem;
+            padding-bottom: 0.5rem;
           }
         }
 
@@ -214,7 +227,7 @@
           border-radius: 4px;
           margin-bottom: 0.5rem;
 
-          box-shadow: 0 1px 3px 0 #e6ebf1;
+          box-shadow: 0 1px 2px 0 #e6ebf1;
           -webkit-transition: box-shadow 150ms ease;
           transition: box-shadow 150ms ease;
         }

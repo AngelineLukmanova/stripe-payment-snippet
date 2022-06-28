@@ -1,5 +1,4 @@
 async function fetchFromAPI(API, endpoint, opts) {
-  console.log(API, endpoint);
   const { method, body } = { method: 'POST', body: null, ...opts };
   const res = await fetch(`${API}/${endpoint}`, {
     method,
