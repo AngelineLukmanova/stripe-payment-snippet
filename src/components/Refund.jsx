@@ -11,18 +11,15 @@ import {
 import fetchFromAPI from '../utils/helpers';
 import { validTextArea, validPrice } from '../utils/Regex';
 
-const API = process.env.STRIPE_API;
+const API = process.env.REACT_APP_STRIPE_API;
 
 function Refund({
-  clickedBooking,
-  addTransaction,
   setShowConfirmation,
   setFormMsg,
   confirmed,
   formOpen,
   setFormOpen,
   paymentsList,
-  checked,
 }) {
   const [amount, setAmount] = useState('');
   const [reason, setReason] = useState('');
@@ -39,44 +36,24 @@ function Refund({
       const res = await fetchFromAPI(API, 'create-refund', {
         body,
       });
-
-      if (res?.refund?.status === 'succeeded') {
-        addTransaction({
-          variables: {
-            input: {
-              stripe_id: res.refund.id,
-              date: new Date().toISOString(),
-              card_type: cardInfo.brand.toUpperCase(),
-              value: amount.toString(),
-              card_value: cardInfo.last4,
-              type: 'refund',
-              customer_id: clickedBooking.customer.customerId,
-              booking_id: clickedBooking.id,
-              payment_method: payment.charges?.data?.[0]?.payment_method,
-              reason,
-            },
-          },
-        });
-      }
+      if (res.refund) window.location.reload();
     } catch (err) {
-      alert(`Refund failed: ${err.message}. Error code is: ${err.code}`);
+      setError(`Refund failed: ${err.message}. Error code is: ${err.code}`)
     }
   };
 
-  useEffect(() => {
-    if (confirmed && validated && formOpen === 'refund') {
-      try {
-        const body = {
-          paymentIntent,
-          amount: Number(amount) * 100,
-          reason: reason.replace(/\s+/g, ' ').trim(),
-        };
-        createRefund(body);
-      } catch (err) {
-        setError(`Payment Failed: ${err.message}. Error code is: ${err.code}`);
-      }
+  if (confirmed && validated && formOpen === 'refund') {
+    try {
+      const body = {
+        paymentIntent,
+        amount: Number(amount) * 100,
+        reason: reason.replace(/\s+/g, ' ').trim(),
+      };
+      createRefund(body);
+    } catch (err) {
+      setError(`Payment Failed: ${err.message}. Error code is: ${err.code}`);
     }
-  }, [confirmed, validated]);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();

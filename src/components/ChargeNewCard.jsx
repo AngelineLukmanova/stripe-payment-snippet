@@ -9,6 +9,8 @@ import {
 import { Accordion, Button } from 'react-bootstrap';
 import fetchFromAPI from '../utils/helpers';
 
+const API = process.env.REACT_APP_STRIPE_API;
+
 function ChargeNewCard({
   formOpen,
   setFormOpen,
@@ -21,7 +23,7 @@ function ChargeNewCard({
   const stripe = useStripe();
 
   const getClientSecret = async (body) => {
-    const res = await fetchFromAPI(process.env.REACT_APP_STRIPE_API, 'create-payment-intent', {
+    const res = await fetchFromAPI(API, 'create-payment-intent', {
       body
     })
     setClientSecret(res.clientSecret);

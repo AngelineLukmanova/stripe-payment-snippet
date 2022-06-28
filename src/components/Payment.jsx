@@ -8,7 +8,7 @@ import ChargeNewCard from './ChargeNewCard';
 import Refund from './Refund';
 import './PaymentInfo.scss';
 
-const API = process.env.STRIPE_API;
+const API = process.env.REACT_APP_STRIPE_API;
 
 function Payment() {
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -16,29 +16,22 @@ function Payment() {
   const [formOpen, setFormOpen] = useState('refund');
   const [formMsg, setFormMsg] = useState('');
   const [paymentsList, setPaymentsList] = useState('');
-  const [checked, setChecked] = useState(false);
 
-  // const [customer, setCustomer] = useState(localStorage.getItem('customerId'));
+  const paymentIntentsList = async (body) => {
+    const res = await fetchFromAPI(API, 'create-payment-intents-list', {
+      body,
+    });
+    setPaymentsList(res.paymentIntentsList.data.filter((payment) => payment.charges.data.length > 0));
+  };
 
-  // console.log(localStorage.getItem('customerId'));
-  // console.log(customer);
-
-
-  // const paymentIntentsList = async (body) => {
-  //   const res = await fetchFromAPI(API, 'create-payment-intents-list', {
-  //     body,
-  //   });
-  //   setPaymentsList(res.paymentIntentsList.data);
-  // };
-
-  // useEffect(() => {
-  //   if (clickedBooking) {
-  //     const body = {
-  //       customer: clickedBooking.customer.customerId,
-  //     };
-  //     paymentIntentsList(body);
-  //   }
-  // }, [clickedBooking]);
+  useEffect(() => {
+    if (localStorage.getItem('customerId') && paymentsList === '') {
+      const body = {
+        customer: localStorage.getItem('customerId'),
+      };
+      paymentIntentsList(body);
+    }
+  }, [paymentsList]);
 
   return (
     <div className="Payment__payment-info">
@@ -55,7 +48,6 @@ function Payment() {
             formOpen={formOpen}
             setFormMsg={setFormMsg}
             paymentsList={paymentsList}
-            checked={checked}
           />
           <ChargeExistingCard
             setShowConfirmation={setShowConfirmation}
@@ -79,8 +71,6 @@ function Payment() {
         setConfirmed={setConfirmed}
         formOpen={formOpen}
         formMsg={formMsg}
-        checked={checked}
-        setChecked={setChecked}
       />
     </div>
   );

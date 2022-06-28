@@ -7,8 +7,6 @@ function PaymentConfirmation({
   setConfirmed,
   formOpen,
   formMsg,
-  checked,
-  setChecked,
 }) {
   let btn = 'Confirm Charge';
 
@@ -18,6 +16,7 @@ function PaymentConfirmation({
 
   const handleClick = () => {
     setConfirmed(true);
+    setShowConfirmation(false);
   };
 
   const handleClose = () => setShowConfirmation(false);
@@ -33,19 +32,10 @@ function PaymentConfirmation({
         <Modal.Body>
           <div className="Payment__payment-confirmation">
             {formMsg}
-            {formOpen === 'refund' && (
-              <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                <Form.Check
-                  type="checkbox"
-                  label="Send refund email"
-                  onClick={() => setChecked(!checked)}
-                />
-              </Form.Group>
-            )}
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="danger" onClick={handleClick}>
+          <Button variant="danger" onClick={() => handleClick()}>
             {btn}
           </Button>
           <Button variant="secondary" onClick={handleClose}>
