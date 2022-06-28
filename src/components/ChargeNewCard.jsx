@@ -33,7 +33,7 @@ function ChargeNewCard({
       setError(`${err.message}. Error code is: ${err.code}`)
     }
   };
-  console.log(localStorage.getItem('customerId'));
+
   const addPaymentMethod = async (body) => {
     try {
       const res = await fetchFromAPI(API, 'add-payment-method', {
@@ -63,7 +63,7 @@ function ChargeNewCard({
       },
       setup_future_usage: 'off_session',
     });
-    console.log(payload);
+
     if (payload.error) {
       setError(`Payment Failed: ${payload.error.message}`)
     } else {

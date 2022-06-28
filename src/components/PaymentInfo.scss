@@ -2,7 +2,7 @@
   &__payment-info {
     display: flex;
     flex-direction: column;
-    width: 65%;
+    width: 50%;
     align-items: center;
     padding-top: 3rem;
     margin: 0 auto;
@@ -100,7 +100,7 @@
                 color: #868383;
               }
 
-              width: 18%;
+              width: 11%;
 
               &:nth-of-type(2) {
                 font-size: 0.8rem;
