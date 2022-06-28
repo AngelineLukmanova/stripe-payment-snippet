@@ -15,6 +15,7 @@
     &-forms {
       width: 100%;
       padding-top: 3rem;
+      padding-bottom: 4rem;
 
       & .accordion-button {
         background-color: #002b49;
@@ -298,6 +299,8 @@
       display: flex;
       border-radius: 10px;
       justify-content: center;
+      min-height: 10rem;
+
 
       & table {
         width: 97%;
@@ -387,4 +390,11 @@
   font-size: 0.95rem;
   color: #e0565a;
   text-align: center;
+}
+
+.spinner-stripe {
+  color: #e0565a;
+  display: flex;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
 }

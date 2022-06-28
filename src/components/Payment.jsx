@@ -16,12 +16,14 @@ function Payment() {
   const [formOpen, setFormOpen] = useState('refund');
   const [formMsg, setFormMsg] = useState('');
   const [paymentsList, setPaymentsList] = useState('');
+  const [loading, setLoading] = useState(true);
 
   const paymentIntentsList = async (body) => {
     const res = await fetchFromAPI(API, 'create-payment-intents-list', {
       body,
     });
     setPaymentsList(res.paymentIntentsList.data.filter((payment) => payment.charges.data.length > 0));
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -31,16 +33,23 @@ function Payment() {
       };
       paymentIntentsList(body);
     }
+    else {
+      setLoading(false);
+    }
   }, [paymentsList]);
 
   return (
     <div className="Payment__payment-info">
       <h1>Stripe Demo</h1>
-      <div className="Payment__payment-info-container">
-        <PaymentHistory paymentsList={paymentsList} />
-      </div>
+      {!loading
+        ? (
+          <div className="Payment__payment-info-container">
+            <PaymentHistory paymentsList={paymentsList} />
+          </div>)
+        : <div className="spinner-border spinner-stripe" role="status" />
+      }
       <div className="Payment__payment-info-forms">
-        <Accordion defaultActiveKey="0">
+        <Accordion>
           <Refund
             setShowConfirmation={setShowConfirmation}
             confirmed={confirmed}
