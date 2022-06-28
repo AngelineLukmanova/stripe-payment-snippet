@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
-import { useStripe } from '@stripe/react-stripe-js';
 import {
   Accordion,
   Form,
@@ -14,76 +13,53 @@ const date = dayjs(new Date()).format('YYYY-MM-DD');
 const API = process.env.REACT_APP_STRIPE_API;
 
 function ChargeExistingCard({
-  clickedBooking,
-  addTransaction,
   setShowConfirmation,
   confirmed,
   formOpen,
   setFormOpen,
   setFormMsg,
 }) {
-  const [paymentOptions, setPaymentOptions] = useState();
+  const [paymentOptions, setPaymentOptions] = useState('');
   const [cardId, setCardId] = useState('');
   const [amount, setAmount] = useState('');
   const [validated, setValidated] = useState(false);
   const [error, setError] = useState('');
-  const stripe = useStripe();
 
   const cardInfo = (cardId && cardId !== 'default')
     && paymentOptions.payments.filter((payment) => payment.id === cardId)[0];
 
-  useEffect(() => {
-    if (clickedBooking) {
-      const body = {
-        customer: clickedBooking.customer.customerId,
-      };
-      const paymentList = async () => {
-        const res = await fetchFromAPI(API, 'payment-options', {
-          body,
-        });
-        setPaymentOptions(res);
-      };
-      paymentList();
-    }
-  }, [clickedBooking]);
+  const paymentList = async (body) => {
+    const res = await fetchFromAPI(API, 'payment-options', {
+      body,
+    });
+    setPaymentOptions(res);
+  };
 
-  useEffect(() => {
-    if (confirmed && validated && formOpen === 'existing card') {
-      try {
-        const body = {
-          customer: clickedBooking.customer.customerId,
-          amount: Number(amount) * 100,
-          paymentMethodId: cardId,
-        };
-        const paymentIntent = async () => {
-          const res = await fetchFromAPI(API, 'create-payment-intent', {
-            body,
-          });
-          res && stripe.retrievePaymentIntent(res.clientSecret).then(({ paymentIntent }) => {
-            addTransaction({
-              variables: {
-                input: {
-                  stripe_id: paymentIntent.id,
-                  date,
-                  card_type: cardInfo.card.brand,
-                  value: amount,
-                  card_value: cardInfo.card.last4,
-                  type: 'charge',
-                  customer_id: clickedBooking.customer.customerId,
-                  booking_id: clickedBooking.id,
-                  payment_method: cardId,
-                },
-              },
-            });
-            window.location.reload();
-          });
-        };
-        paymentIntent();
-      } catch (err) {
-        setError(`Payment Failed: ${err.message}. Error code is: ${err.code}`);
-      }
+  if (localStorage.getItem('customerId') && paymentOptions === '') {
+    const body = {
+      customer: localStorage.getItem('customerId'),
+    };
+    paymentList(body);
+  }
+
+  const paymentIntent = async (body) => {
+    const res = await fetchFromAPI(API, 'create-payment-intent', {
+      body,
+    });
+  };
+
+  if (confirmed && validated && formOpen === 'existing card') {
+    try {
+      const body = {
+        customer: localStorage.getItem('customerId'),
+        amount: Number(amount) * 100,
+        paymentMethodId: cardId,
+      };
+      paymentIntent(body);
+    } catch (err) {
+      setError(`Payment Failed: ${err.message}. Error code is: ${err.code}`);
     }
-  }, [confirmed, validated]);
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();

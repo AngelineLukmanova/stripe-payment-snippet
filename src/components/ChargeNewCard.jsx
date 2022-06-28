@@ -23,12 +23,27 @@ function ChargeNewCard({
   const stripe = useStripe();
 
   const getClientSecret = async (body) => {
-    const res = await fetchFromAPI(API, 'create-payment-intent', {
-      body
-    })
-    setClientSecret(res.clientSecret);
-    if (!localStorage.getItem('customerId')) localStorage.setItem('customerId', res.customer);
-  }
+    try {
+      const res = await fetchFromAPI(API, 'create-payment-intent', {
+        body
+      })
+      setClientSecret(res.clientSecret);
+      if (!localStorage.getItem('customerId')) localStorage.setItem('customerId', res.customer);
+    } catch (err) {
+      setError(`${err.message}. Error code is: ${err.code}`)
+    }
+  };
+
+  const addPaymentMethod = async (body) => {
+    try {
+      const res = await fetchFromAPI(API, 'add-payment-method', {
+        body
+      })
+      if (res.newPaymentMethod) window.location.reload();
+    } catch (err) {
+      setError(`Payment method was not added: ${err.message}. Error code is: ${err.code}`)
+    }
+  };
 
   useEffect(() => {
     if (formOpen === 'new card') {
@@ -46,12 +61,17 @@ function ChargeNewCard({
       payment_method: {
         card: elements.getElement(CardNumberElement),
       },
+      setup_future_usage: 'off_session',
     });
+
     if (payload.error) {
       setError(`Payment Failed: ${payload.error.message}`)
     } else {
       setProcessing(false);
-      window.location.reload();
+      addPaymentMethod({
+        paymentMethod: payload.paymentIntent.payment_method,
+        customer: localStorage.getItem('customerId')
+      });
     }
   };
 
