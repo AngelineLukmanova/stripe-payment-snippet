@@ -4,12 +4,14 @@
     flex-direction: column;
     width: 50%;
     align-items: center;
-    padding-top: 3rem;
+    padding-top: 2rem;
     margin: 0 auto;
 
     & h1 {
-      padding-bottom: 2rem;
-      font-size: 2rem;
+      padding-bottom: 2.2rem;
+      font-size: 2.3rem;
+      font-family: 'Noto Sans JP', sans-serif;
+      color: #444444;
     }
 
     &-forms {
@@ -17,9 +19,19 @@
       padding-top: 3rem;
       padding-bottom: 4rem;
 
+      & .accordion-item {
+        border: none;
+        margin-bottom: 2px;
+
+        .accordion-collapse {
+          border: 1px solid rgba(0, 0, 0, .125);
+        }
+
+      }
+
       & .accordion-button {
-        background-color: #002b49;
-        color: #fff;
+        background-color: #cadcc08f;
+        color: rgba(64, 62, 62, 0.866);
         padding: 12px 1rem;
         font-size: 1rem;
 
@@ -31,8 +43,9 @@
           box-shadow: none;
         }
 
-        &::after {
-          color: #fff;
+        &:not(.collapsed) {
+          background-color: #f7f7f7;
+          color: rgba(64, 62, 62, 0.866);
         }
       }
 
@@ -300,13 +313,13 @@
       border-radius: 10px;
       justify-content: center;
       min-height: 10rem;
-
+      box-shadow: 2px 2px 13px -4px rgba(0, 0, 0, 0.45);
 
       & table {
         width: 97%;
 
         th {
-          font-size: 0.85rem;
+          font-size: 0.9rem;
           font-weight: 500;
           color: #131313;
           text-align: center;
@@ -333,7 +346,7 @@
 
           & td {
             text-align: center;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             padding-top: 0.4rem;
             padding-bottom: 1rem;
             color: rgb(92, 91, 91);
@@ -364,7 +377,7 @@
         & tfoot {
           height: 2rem;
           text-align: end;
-          font-size: 0.85rem;
+          font-size: 0.9rem;
           color: #131313;
 
           & td {
@@ -393,7 +406,7 @@
 }
 
 .spinner-stripe {
-  color: #e0565a;
+  color: #899482;
   display: flex;
   margin-top: 1rem;
   margin-bottom: 0.5rem;
