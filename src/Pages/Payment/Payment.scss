@@ -7,6 +7,12 @@
     padding-top: 2rem;
     margin: 0 auto;
 
+    &-disclamer {
+      padding-bottom: 1rem;
+      font-size: 1.2rem;
+      color: #2a411b;
+    }
+
     & h1 {
       padding-bottom: 2.2rem;
       font-size: 2.3rem;
@@ -24,7 +30,7 @@
         margin-bottom: 2px;
 
         .accordion-collapse {
-          border: 1px solid rgba(0, 0, 0, .125);
+          border: 1px solid #cadcc08f;
         }
 
       }
@@ -35,17 +41,17 @@
         padding: 12px 1rem;
         font-size: 1rem;
 
-        &::after {
-          background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23999999'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
-        }
-
         &:focus {
           box-shadow: none;
         }
 
         &:not(.collapsed) {
-          background-color: #f7f7f7;
-          color: rgba(64, 62, 62, 0.866);
+          background-color: #92b3818f;
+          color: rgba(69, 86, 76, 0.866);
+
+          &::after {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23999999'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+          }
         }
       }
 
@@ -215,7 +221,7 @@
             display: flex;
             flex-direction: column;
             margin-bottom: 1.3rem;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: #868383;
 
             & p {
@@ -238,8 +244,9 @@
           background-color: white;
           border: 1px solid;
           border-color: #ced4da;
-          border-radius: 4px;
-          margin-bottom: 0.5rem;
+          border-radius: 8px;
+          margin: 0.5rem 0.3rem;
+
 
           box-shadow: 0 1px 2px 0 #e6ebf1;
           -webkit-transition: box-shadow 150ms ease;
@@ -308,12 +315,12 @@
     &-container {
       width: 100%;
       padding: 1rem 1.6rem;
-      background-color: #f7f7f7;
       display: flex;
       border-radius: 10px;
       justify-content: center;
       min-height: 10rem;
       box-shadow: 2px 2px 13px -4px rgba(0, 0, 0, 0.45);
+      background-color: white;
 
       & table {
         width: 97%;

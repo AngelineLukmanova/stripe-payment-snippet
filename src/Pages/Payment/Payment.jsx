@@ -41,6 +41,11 @@ function Payment() {
   return (
     <div className="Payment__payment-info">
       <h1>Stripe Demo</h1>
+      {paymentsList.length === 0 && (
+        <p className="Payment__payment-info-disclamer">
+          Looks like you're new here! Start testing Stripe functionality by Charging New Card
+        </p>
+      )}
       {!loading
         ? (
           <div className="Payment__payment-info-container">
