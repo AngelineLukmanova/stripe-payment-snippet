@@ -8,8 +8,8 @@ import {
   OverlayTrigger,
   Tooltip,
 } from 'react-bootstrap';
-import fetchFromAPI from '../utils/helpers';
-import { validTextArea, validPrice } from '../utils/Regex';
+import fetchFromAPI from '../../../utils/helpers';
+import { validTextArea, validPrice } from '../../../utils/Regex';
 
 const API = process.env.REACT_APP_STRIPE_API;
 

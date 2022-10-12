@@ -7,7 +7,7 @@ import {
   useElements,
 } from '@stripe/react-stripe-js';
 import { Accordion, Button } from 'react-bootstrap';
-import fetchFromAPI from '../utils/helpers';
+import fetchFromAPI from '../../../utils/helpers';
 
 const API = process.env.REACT_APP_STRIPE_API;
 

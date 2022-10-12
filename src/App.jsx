@@ -1,5 +1,5 @@
 import './App.css';
-import Payment from './components/Payment'
+import Payment from './Pages/Payment/Payment';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {

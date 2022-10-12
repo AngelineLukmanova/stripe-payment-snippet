@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Accordion } from 'react-bootstrap';
-import PaymentHistory from './PaymentHistory';
-import fetchFromAPI from '../utils/helpers';
-import ChargeExistingCard from './ChargeExistingCard';
-import PaymentConfirmation from './PaymentConfirmation';
-import ChargeNewCard from './ChargeNewCard';
-import Refund from './Refund';
-import './PaymentInfo.scss';
+import PaymentHistory from './components/PaymentHistory';
+import fetchFromAPI from '../../utils/helpers';
+import ChargeExistingCard from './components/ChargeExistingCard';
+import PaymentConfirmation from './components/PaymentConfirmation';
+import ChargeNewCard from './components/ChargeNewCard';
+import Refund from './components/Refund';
+import './Payment.scss';
 
 const API = process.env.REACT_APP_STRIPE_API;
 

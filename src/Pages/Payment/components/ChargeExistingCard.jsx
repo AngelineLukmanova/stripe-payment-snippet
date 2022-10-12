@@ -7,8 +7,8 @@ import {
   InputGroup,
 } from 'react-bootstrap';
 import { useStripe } from '@stripe/react-stripe-js';
-import fetchFromAPI from '../utils/helpers';
-import { validPrice } from '../utils/Regex';
+import fetchFromAPI from '../../../utils/helpers';
+import { validPrice } from '../../../utils/Regex';
 
 const date = dayjs(new Date()).format('YYYY-MM-DD');
 const API = process.env.REACT_APP_STRIPE_API;
